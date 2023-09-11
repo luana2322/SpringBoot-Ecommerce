@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- Basic -->
+
+<head th:replace="fragment::header"> </head>
+
+<body>
+    <!-- Start Main Top -->
+   <div th:replace="fragment::main-top"></div>
+    <!-- End Main Top -->
+
+
+   <!-- Start Main Top -->
+  <header class="main-header" th:replace="fragment::main-header"></header>
+<!-- End Main Top -->
+
+<!-- Start Top Search -->
+<div class="top-search"  th:replace="fragment::top-search" ></div>
+<!-- End Top Search -->
+
+
+
+
+
+    <!-- Start All Title Box -->
+   <div class="all-title-box" th:replace="fragment::all-title-box"></div>
+    <!-- End All Title Box -->
+
+    <!-- Start Shop Page  -->
+    <div class="shop-box-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
+                    <div class="right-product-box">
+                        <div class="product-item-filter row">
+                            <div class="col-12 col-sm-8 text-center text-sm-left">
+                                <div class="toolbar-sorter-right">
+                                    <span>Sort by </span>
+                                    <select id="basic" class="selectpicker show-tick form-control" onchange="location = this.value;" data-placeholder="$ USD">
+									<option >--Select--</option>
+                                        <option value="http://localhost:8082/products">All</option>
+									  <option value="http://localhost:8082/product-high">High Price → Low Price </option>
+                                      <option value="http://localhost:8082/product-low">Low Price → High Price</option>
+									<option th:href="@{/best-seller}">Best Selling</option>
+								</select>
+                                </div>
+                                <p>Showing all results</p>
+                            </div>
+                            <div class="col-12 col-sm-4 text-center text-sm-right">
+                                <ul class="nav nav-tabs ml-auto">
+                                    <li>
+                                        <a class="nav-link active" href="#grid-view" data-toggle="tab"> <i class="fa fa-th"></i> </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="#list-view" data-toggle="tab"> <i class="fa fa-list-ul"></i> </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="product-categorie-box">
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
+                                    <div class="row" >
+
+                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" th:each="pro:${listpro}"
+>
+                                            <div class="products-single fix">
+                                                <div class="box-img-hover">                                       
+                                                    <img src="images/Crab 01 - Crab Pasta With Snap Peas and Mint.jpg" class="img-fluid" alt="Image">
+                                                    <div class="mask-icon">
+                                                        <ul>
+                                                            <li><a th:href="@{/products-detail(id=${pro.id})}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                        </ul>
+                                                        <a class="cart" th:href="@{/addtocart(id=${pro.id})}">Add to Cart</a>
+                                                    </div>
+                                                </div>
+                                                <div class="why-text">
+                                                    <h4 th:text="${pro.name}"></h4>
+                                                    <h5 th:text="${pro.costPrice}"></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                  
+                                       
+                                  
+                                    </div>
+                                </div>
+
+
+                                <div role="tabpanel" class="tab-pane fade" id="list-view" >
+                                    <div class="list-view-box" th:each="pro:${listpro}">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                                <div class="products-single fix">
+                                                    <div class="box-img-hover">
+                                                        <img src="images/Crap Soft-Shell.jpg" class="img-fluid" alt="Image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
+                                                <div class="why-text full-width">
+                                                    <h4 th:text="${pro.name}"></h4>
+                                                    <h5 th:text="${pro.costPrice}"></h5>
+                                                    <p th:text="${pro.description}"></p>
+                                                    <p th:text="${pro.category.name}"></p>
+                                                    <a class="btn hvr-hover" th:href="@{/addtocart/{id}(id=${pro.id})}">Add to Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+				<div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
+                    <div class="product-categori">
+                        <div class="search-product">
+                            <form th:action="@{/search}">
+                                <input class="form-control" name="keyword" placeholder="Search here..." type="text">
+                                <button type="submit"> <i class="fa fa-search"></i> </button>
+                            </form>
+                        </div>
+                        <div class="filter-sidebar-left">
+                            <div class="title-left">
+                                <h3>Categories</h3>
+                            </div>
+                            <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men" data-children=".sub-men" th:each="cate:${listcate}">
+                                <a th:href="@{/procate(id=${cate.id})}" class="list-group-item list-group-item-action" th:text="${cate.name}"> <small class="text-muted">(7)</small></a>
+                           </div>
+                        </div>
+                        <div class="filter-price-left">
+                            <div class="title-left">                               
+                            </div>                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Shop Page -->
+
+    <!-- Start Feed  -->
+    <div class="instagram-box" th:replace="fragment::instagram-box" ></div>
+    <!-- End Feed  -->
+
+
+    <!-- Start Footer  -->
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+				<div class="row">
+					<div class="col-lg-4 col-md-12 col-sm-12">
+						<div class="footer-top-box">
+							<h3>Business Time</h3>
+							<ul class="list-time">
+								<li>Monday - Sunday: 08.00am to 10.00pm</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-12 col-sm-12">
+						<div class="footer-top-box">
+							<h3>Contact Us</h3>
+							<ul class="list-time">
+								<li><i class="fas fa-phone-square"></i> Phone number: +84967631186</li>
+                                <li><i class="fas fa-envelope"></i> Email: abc@gmail.com</li>
+                                <li><i class="fas fa-map-marker-alt"></i> Address: Km9, Nguyen Trai, Thanh Xuan</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-12 col-sm-12">
+						<div class="footer-top-box">
+							<h3>Social Media</h3>
+							<p>Come with Ocean Prime shop - Only Fresh </p>
+							<ul>
+                                <li><a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
+                            </ul>
+						</div>
+					</div>
+				</div>
+
+                
+            
+
+   
+
+      <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- ALL PLUGINS -->
+    <script src="js/jquery.superslides.min.js"></script>
+    <script src="js/bootstrap-select.js"></script>
+    <script src="js/inewsticker.js"></script>
+    <script src="js/bootsnav.js."></script>
+    <script src="js/images-loded.min.js"></script>
+    <script src="js/isotope.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/baguetteBox.min.js"></script>
+    <script src="js/form-validator.min.js"></script>
+    <script src="js/contact-form-script.js"></script>
+    <script src="js/custom.js"></script>
+
+
+  
+</body>
+
+</html>

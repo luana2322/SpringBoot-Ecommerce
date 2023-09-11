@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="fragment::header"> </head>
+
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <ul th:replace="fragment::sidebar"></ul>
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+          <!-- Topbar -->
+          <nav th:replace="fragment::topbar"></nav>
+          <!-- End of Topbar -->
+
+          <div>
+             <form
+              class="form-inline mr-auto w-100 navbar-search"
+              method="get"
+              th:action="@{/search/0}"
+            >
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control bg-light border-0 small"
+                  placeholder="Search for..."
+                  aria-label="Search"
+                  aria-describedby="basic-addon2"
+                  name="keyword"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search fa-sm"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- Begin Page Content -->
+
+          <div th:if="${size==0}">
+            <p class="text-xl-center">No Product</p>
+          </div>
+          <button
+            type="button"
+            class="btn btn-primary text-center"
+            data-toggle="modal"
+            data-target="#exampleModal"
+            data-whatever="@mdo"
+          >
+            Add new product
+          </button>
+          <div
+            th:if="${session.success}"
+            class="text-center alert alert-success"
+          >
+            <p th:text="${session.success}"></p>
+          </div>
+
+          <div th:if="${session.fail}" class="text-center alert alert-danger">
+            <p th:text="${session.fail}"></p>
+          </div>
+
+          <!-- Begin Page Content -->
+          <table class="table" th:if="${size>0}">
+            <thead>
+              <tr>
+                <th scope="col">Index</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Cost Price</th>
+                <th scope="col">Sale Price</th>
+                <th scope="col">Current Quatity</th>
+                <th scope="col">Category</th>
+                <th scope="col">Image</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="product:${products}">
+                <th th:text="${product.id}" scope="row"></th>
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.description}"></td>
+                <td th:text="${product.costPrice}"></td>
+                <td th:text="${product.salePrice}"></td>
+                <td th:text="${product.currentQuantity}"></td>
+                <td th:text="${product.category.name}"></td>
+                <td>
+                  <img
+                    style="width: 40px; height: 40px"
+                    th:src="@{'data:image/jpeg;base64,' + ${product.image}}"
+                  />
+                </td>
+                <td>
+                  <a
+                    class="btn btn-primary"
+                    th:href="@{/delete-product/{id}(id=${product.id})}"
+                    style="background-color: red"
+                    >Delete</a
+                  >
+                  <!-- data-toggle="modal" data-target="#exampleModaldelete" -->
+                  <a
+                    class="btn btn-primary"
+                    th:href="@{/edit-product/{id}(id=${product.id})}"
+                    >Update</a
+                  >
+                  <!-- data-target="#exampleModalupdate"  data-toggle="modal"-->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+        <!--Begin pagination  -->
+        <nav aria-label="Page navigation example">
+          <ul
+            class="pagination justify-content-center"
+           
+          >
+            <li class="page-item">
+              <a class="page-link" th:href="@{/products}">Previous</a>
+            </li>
+
+            <li class="page-item" th:each="pagenum:${page}">
+              <a class="page-link" th:href="@{/products/{page1}(page1=${pagenum})}"><span th:text="${pagenum}"></span></a>
+            </li>
+
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </nav>
+        <!--End pagination  -->
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Your Website 2020</span>
+            </div>
+          </div>
+        </footer>
+        <!-- End of Footer -->
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Select "Logout" below if you are ready to end your current session.
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <form
+        th:action="@{/add-product}"
+        method="post"
+        enctype="multipart/form-data"
+        th:object="${newproduct}"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+            </div>
+            <fieldset>
+              <!-- Text input-->
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-12 control-label" for="product_name"
+                  >PRODUCT NAME</label
+                >
+                <div class="col-md-12">
+                  <input
+                    id="name"
+                    name="name"
+                    placeholder="PRODUCT NAME"
+                    class="form-control input-md"
+                    required=""
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-12 control-label" for="product_name_fr"
+                  >PRODUCT DESCRIPTION FR</label
+                >
+                <div class="col-md-12">
+                  <input
+                    id="description"
+                    name="description"
+                    placeholder="PRODUCT DESCRIPTION FR"
+                    class="form-control input-md"
+                    required=""
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <!-- Select Basic -->
+              <div class="form-group">
+                <label class="col-md-12 control-label" for="product_categorie"
+                  >PRODUCT CATEGORY</label
+                >
+                <div class="col-md-12">
+                  <select id="category" name="category" class="form-control">
+                    <option>--SELECT--</option>
+                    <option
+                      th:each="cate:${listcate}"
+                      th:value="${cate.id}"
+                      th:text="${cate.name}"
+                    ></option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-12 control-label" for="available_quantity"
+                  >AVAILABLE QUANTITY</label
+                >
+                <div class="col-md-12">
+                  <input
+                    id="currentQuantity"
+                    name="currentQuantity"
+                    placeholder="AVAILABLE QfUANTITY"
+                    class="form-control input-md"
+                    required=""
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-12 control-label" for="product_weight"
+                  >PRODUCT Price</label
+                >
+                <div class="col-md-12">
+                  <input
+                    id="costPrice"
+                    name="costPrice"
+                    placeholder="PRODUCT WEIGHT"
+                    class="form-control input-md"
+                    required=""
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <!-- File Button -->
+              <div class="form-group">
+                <div class="col-md-12">
+                  <input
+                    id="imageproduct"
+                    name="imageproduct"
+                    class="input-file"
+                    type="file"
+                  />
+                </div>
+              </div>
+            </fieldset>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div th:replace="fragment::script"></div>
+  </body>
+</html>

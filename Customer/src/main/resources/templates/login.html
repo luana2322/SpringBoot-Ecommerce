@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${tiltle}"></title>
+    <link rel="stylesheet" href="/css/stylelogin.css">
+  </head>
+  <body>
+    <div class="login-wrap">
+	<div class="login-html">
+		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+		<input th:href="@{/register}" id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+		
+        <div class="login-form">
+            <!--STart sign-in -->
+			<form class="sign-in-htm" th:action="@{/do-login}" method="post">
+				<div class="group">
+					<label for="username" class="label">Username</label>
+					<input id="username" name="username" type="text" class="input">
+				</div>
+				<div class="group">
+					<label for="password" class="label">Password</label>
+					<input id="password" name="password" type="password" class="input" data-type="password">
+				</div>
+				<div class="group">
+					<input id="check" type="checkbox" class="check" checked>
+					<label for="check"><span class="icon"></span> Keep me Signed in</label>
+				</div>
+				<div class="group">
+					<button type="submit" class="button" >Sign In</button>
+				</div>
+				<div class="hr"></div>
+				<div class="foot-lnk">
+					<a href="#forgot">Forgot Password?</a>
+				</div>
+			</form>
+            <!-- End  sign-in -->
+            <!-- Start  sign-up -->
+			<form class="sign-up-htm" th:action="@{/register-new}" method="post" th:object="${newcustomer}">
+				<div class="group">
+					<label for="username" class="label">Username</label>
+					<input id="username" name="username" type="text" class="input">
+				</div>
+				<div class="group">
+					<label for="password" class="label">Password</label>
+					<input id="password" name="password" type="password" class="input" data-type="password">
+				</div>
+				<div class="group">
+					<label for="confirmpassword" class="label">Repeat Password</label>
+					<input id="confirmpassword" name="confirmpassword" type="password" class="input" data-type="password">
+				</div>
+				<div class="group">
+					<label for="phoneNumber" class="label">Email Address</label>
+					<input id="phoneNumber" name="phoneNumber" type="text" class="input">
+				</div>
+				<div class="group">
+                    
+					<button type="submit" class="button" value="">Sign Up</button>
+				</div>
+				<div class="hr"></div>
+				<div class="foot-lnk">
+					<label for="tab-1">Already Member?</a>
+				</div>
+			</form>
+            <!-- End  sign-up -->
+		</div>
+	</div>
+</div>
+  </body>
+</html>
